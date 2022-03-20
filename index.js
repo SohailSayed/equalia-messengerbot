@@ -6,6 +6,7 @@ const
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
 
+const RECIPIENTID = process.env.RECIPIENTID
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
@@ -23,7 +24,8 @@ app.post('/webhook', (req, res) => {
         // Gets the message. entry.messaging is an array, but 
         // will only ever contain one message, so we get index 0
         let webhook_event = entry.messaging[0];
-        console.log(webhook_event);
+        
+        handleMessage(webhook_event);
       });
   
       // Returns a '200 OK' response to all requests
@@ -62,3 +64,14 @@ app.get('/webhook', (req, res) => {
       }
     }
   });
+
+function handleMessage(message){
+    if (message == "I'm stressed"){
+        const sendMsg = {
+            "recicpient_id": RECIPIENTID,
+            "message_id": MESSAGEID
+            "message": "Would you like to try box breathing?"
+        }
+
+    }
+}
